@@ -1,0 +1,2 @@
+// translator.js removed: PDF-specific translator functionality disabled to keep the extension lightweight.
+// If you need a dedicated translator page again, re-implement it as a secure, server-backed flow.

@@ -1,0 +1,69 @@
+{
+  "manifest_version": 3,
+  "name": "SmartTranslate: AI Assistant Translate+",
+  "version": "1.0.0",
+  "description": "Smart AI-powered translator and assistant for instant translations and summaries using Gemini API.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "contextMenus",
+    "storage",
+    "webNavigation"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "32": "icon32.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [
+        "styles/tailwind.css"
+      ],
+      "js": [
+        "config.js",
+        "utils/logger.js",
+        "utils/security.js",
+        "servicenow-helper.js",
+        "tinymce-helper.js",
+        "modules/storage.js",
+        "modules/api.js",
+        "modules/selection.js",
+        "modules/iframe.js",
+        "modules/diagnostics.js",
+        "modules/components/FloatingButton.js",
+        "modules/components/SelectionIndicator.js",
+        "modules/ui.js",
+        "libs/marked.min.js",
+        "content.js"
+      ],
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "logo.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

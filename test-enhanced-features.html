@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartTranslate - Enhanced Features Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .feature-box {
+            background: #f0f9ff;
+            border-left: 4px solid #2563eb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .feature-box h3 {
+            margin-top: 0;
+            color: #1e40af;
+        }
+
+        .test-text {
+            background: #fef3c7;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border: 1px solid #fcd34d;
+        }
+
+        .instructions {
+            background: #dbeafe;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin: 8px 0;
+        }
+
+        .highlight {
+            background: #dcfce7;
+            border-left: 4px solid #16a34a;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .highlight h4 {
+            margin-top: 0;
+            color: #15803d;
+        }
+
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #dc2626;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚀 SmartTranslate - Enhanced Features</h1>
+        <p class="subtitle">Test the new logo-based buttons and auto-hide functionality</p>
+
+        <div class="highlight">
+            <h4>✨ What's New in This Update</h4>
+            <ul>
+                <li><strong>Logo Branding:</strong> Both buttons now use your SmartTranslate logo instead of emojis</li>
+                <li><strong>Auto-Hide:</strong> Floating button slides to the edge after 3 seconds of inactivity</li>
+                <li><strong>Cleaner Popup:</strong> Removed token usage and enable toggle from popup (available in
+                    extension settings)</li>
+                <li><strong>Smoother Animations:</strong> Enhanced transitions and hover effects</li>
+            </ul>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 How to Use the Enhanced Floating Button</h3>
+            <ol>
+                <li>Look for the <strong>SmartTranslate logo button</strong> in the bottom-right corner</li>
+                <li>After <strong>3 seconds</strong> of inactivity, it will slide to the edge (showing only a small
+                    portion)</li>
+                <li><strong>Move your mouse</strong> or <strong>scroll</strong> to bring it back</li>
+                <li><strong>Hover over it</strong> to see it expand and scale up</li>
+                <li><strong>Click</strong> to open the translation popup</li>
+                <li><strong>Hold and drag</strong> (200ms) to reposition it anywhere</li>
+            </ol>
+        </div>
+
+        <div class="feature-box">
+            <h3>🎯 Auto-Hide Behavior</h3>
+            <p><strong>When does it hide?</strong></p>
+            <ul>
+                <li>After 3 seconds of no mouse movement or scrolling</li>
+                <li>Slides to the right, showing only 12px (still clickable!)</li>
+                <li>Opacity reduces to 70% when hidden</li>
+            </ul>
+            <p><strong>When does it show?</strong></p>
+            <ul>
+                <li>On any mouse movement</li>
+                <li>On page scroll</li>
+                <li>When you hover over it</li>
+                <li>When you click it</li>
+                <li>When you drag it</li>
+            </ul>
+        </div>
+
+        <div class="test-text">
+            <h3>🧪 Test Text (Try selecting this)</h3>
+            <p>
+                <strong>English:</strong> The SmartTranslate extension now features your custom logo on both the
+                floating button and selection indicator.
+                This creates a consistent brand experience throughout the extension.
+            </p>
+            <p>
+                <strong>Spanish:</strong> La extensión SmartTranslate ahora presenta su logotipo personalizado tanto en
+                el botón flotante como en el indicador de selección.
+                Esto crea una experiencia de marca consistente en toda la extensión.
+            </p>
+            <p>
+                <strong>French:</strong> L'extension SmartTranslate présente désormais votre logo personnalisé sur le
+                bouton flottant et l'indicateur de sélection.
+                Cela crée une expérience de marque cohérente dans toute l'extension.
+            </p>
+            <p>
+                <strong>German:</strong> Die SmartTranslate-Erweiterung zeigt jetzt Ihr individuelles Logo sowohl auf
+                der schwebenden Schaltfläche als auch auf der Auswahlmarkierung.
+                Dies schafft ein konsistentes Markenerlebnis in der gesamten Erweiterung.
+            </p>
+        </div>
+
+        <div class="feature-box">
+            <h3>🎨 Design Improvements</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="background: #f9fafb;">
+                    <th style="padding: 10px; text-align: left; border-bottom: 2px solid #e5e7eb;">Element</th>
+                    <th style="padding: 10px; text-align: left; border-bottom: 2px solid #e5e7eb;">Before</th>
+                    <th style="padding: 10px; text-align: left; border-bottom: 2px solid #e5e7eb;">After</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">Floating Button Icon</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;"><span class="emoji">🌐</span> Globe
+                        emoji</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">✅ Your logo</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">Selection Indicator Icon</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;"><span class="emoji">✎</span> Pencil
+                        emoji</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">✅ Your logo</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">Floating Button Behavior</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">Always visible</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">✅ Auto-hides after 3s</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">Popup Header</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">Enable toggle + Token usage</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">✅ Clean (removed)</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="highlight">
+            <h4>💡 Pro Tips</h4>
+            <ul>
+                <li><strong>Tip 1:</strong> The button is still clickable even when hidden (just hover over the edge)
+                </li>
+                <li><strong>Tip 2:</strong> Scroll or move your mouse to instantly bring the button back</li>
+                <li><strong>Tip 3:</strong> The auto-hide won't trigger while you're dragging the button</li>
+                <li><strong>Tip 4:</strong> Both buttons now have your branding for a professional look</li>
+                <li><strong>Tip 5:</strong> Popup is now cleaner - manage settings in the extension popup instead</li>
+            </ul>
+        </div>
+
+        <div class="test-text">
+            <h3>🔄 Testing Checklist</h3>
+            <p>Try these actions to test all features:</p>
+            <ol>
+                <li>✅ Wait 3 seconds - button should slide to the edge</li>
+                <li>✅ Move your mouse - button should slide back</li>
+                <li>✅ Hover over the button - should scale up and show full opacity</li>
+                <li>✅ Click the button - popup should open</li>
+                <li>✅ Select text - logo indicator should appear</li>
+                <li>✅ Click the logo indicator - should translate selected text</li>
+                <li>✅ Check popup - no token usage or enable toggle visible</li>
+                <li>✅ Drag the button - should reposition smoothly</li>
+            </ol>
+        </div>
+
+        <div class="feature-box">
+            <h3>⚙️ Technical Details</h3>
+            <ul>
+                <li><strong>Auto-hide delay:</strong> 3000ms (3 seconds)</li>
+                <li><strong>Hide animation:</strong> translateX(44px) - slides 44px to the right</li>
+                <li><strong>Visible portion when hidden:</strong> 12px (56px button - 44px offset)</li>
+                <li><strong>Transition:</strong> cubic-bezier(0.4, 0, 0.2, 1) for smooth easing</li>
+                <li><strong>Logo size (floating):</strong> 40x40px (with 8px padding)</li>
+                <li><strong>Logo size (indicator):</strong> 20x20px</li>
+            </ul>
+        </div>
+
+        <p style="text-align: center; color: #6b7280; margin-top: 40px;">
+            <small>SmartTranslate Extension - Enhanced with Logo Branding & Auto-Hide</small>
+        </p>
+    </div>
+</body>
+
+</html>

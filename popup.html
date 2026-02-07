@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartTranslate AI Assistant+</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 380px;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            background: white;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+            background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            background: white;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+
+        .tab-btn:hover {
+            color: #374151;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 16px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .translation-area {
+            background: #f0f9ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #111827;
+            min-height: 100px;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .status-msg {
+            font-size: 13px;
+            color: #6b7280;
+            text-align: center;
+            padding: 20px 12px;
+        }
+
+        .api-keys-container {
+            margin-bottom: 14px;
+        }
+
+        .api-keys-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .providers-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .provider-input-card {
+            background: linear-gradient(135deg, #fafbfc 0%, #f3f4f6 100%);
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            padding: 12px;
+            transition: all 0.2s;
+        }
+
+        .provider-input-card:hover {
+            border-color: #4f46e5;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.08);
+            background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+        }
+
+        .provider-input-card.active {
+            border-color: #4f46e5;
+            background: linear-gradient(135deg, #f0f9ff 0%, #ecf0ff 100%);
+        }
+
+        .provider-input-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .provider-input-radio {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #4f46e5;
+        }
+
+        .provider-input-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1f2937;
+            flex: 1;
+        }
+
+        .provider-input-status {
+            font-size: 10px;
+            background: #dbeafe;
+            color: #0c4a6e;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .provider-input-status.active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .provider-input-field-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .provider-input-field {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .provider-input-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .provider-input-btn {
+            flex: 0 1 auto;
+            padding: 6px 10px;
+            font-size: 11px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .provider-input-btn.btn-get-key {
+            background: #dbeafe;
+            color: #0c4a6e;
+            border: 1px solid #93c5fd;
+        }
+
+        .provider-input-btn.btn-get-key:hover {
+            background: #bfdbfe;
+            border-color: #60a5fa;
+        }
+
+        .provider-input-btn.btn-save {
+            background: #4f46e5;
+            color: white;
+            flex: 0.8;
+        }
+
+        .provider-input-btn.btn-save:hover {
+            background: #4338ca;
+        }
+
+        .provider-input-btn.btn-test {
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .provider-input-btn.btn-test:hover {
+            background: #e5e7eb;
+        }
+
+        .provider-input-btn.btn-delete {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .provider-input-btn.btn-delete:hover {
+            background: #fecaca;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 8px 12px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #4338ca;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #e5e7eb;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .toggle-container.active {
+            background: #ecfdf5;
+            border-color: #34d399;
+        }
+
+        .toggle-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .domain {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e5e7eb;
+            transition: 0.2s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.2s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: #34d399;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(20px);
+        }
+
+        .status-text {
+            font-size: 12px;
+            color: #059669;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .tip {
+            font-size: 11px;
+            color: #6b7280;
+            background: #f3f4f6;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 12px;
+        }
+
+        .token-usage {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 1px solid #fcd34d;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 8px;
+            font-size: 11px;
+        }
+
+        .token-usage-bar {
+            background: #e5e7eb;
+            border-radius: 4px;
+            height: 6px;
+            margin: 6px 0;
+            overflow: hidden;
+        }
+
+        .token-usage-fill {
+            background: linear-gradient(90deg, #f59e0b 0%, #ef4444 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .token-usage-stats {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+            color: #92400e;
+        }
+
+        .free-providers {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .free-providers-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .providers-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .provider-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #ecf0ff 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            padding: 10px;
+            transition: all 0.2s;
+        }
+
+        .provider-card:hover {
+            border-color: #4f46e5;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.1);
+        }
+
+        .provider-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .provider-card-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .provider-badge {
+            font-size: 10px;
+            background: #10b981;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .provider-card-desc {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .provider-card-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .provider-card-btn:hover {
+            background: #4338ca;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img src="logo.png" class="logo" alt="Logo" />
+        <div style="display: flex; flex-direction: column;">
+            <h1 class="title">SmartTranslate</h1>
+            <div style="font-size: 10px; color: #94a3b8; font-weight: 500;">AI-Powered Browser Assistant</div>
+        </div>
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+            <button id="gemini-open-window-btn" title="Open AI Assistant"
+                style="padding:6px 12px; background:#f0f9ff; color:#2563eb; border:1px solid #bfdbfe; border-radius:14px; font-size:11px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:3px; transition:all 0.2s; white-space: nowrap;">
+                <span>✨ Assistant</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="toggle-container" id="toggleContainer"
+        style="margin:12px 16px 16px 16px; flex-direction:column; align-items:stretch; gap:12px; height:auto; padding:12px 16px;">
+        <!-- Global Enable -->
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <div class="toggle-text">Enable SmartTranslate</div>
+                <div id="domain" class="domain">for this site</div>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="enableToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div style="height:1px; background:#f1f5f9; width:100%;"></div>
+
+        <!-- Floating Button Enable -->
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <div class="toggle-text" style="font-size:13px;">Show Floating Button</div>
+                <div class="domain" style="font-size:11px;">Always-on quick access button</div>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="floatingButtonToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="translate">📝 Translate</button>
+        <button class="tab-btn" data-tab="summary">📋 Summary</button>
+        <button class="tab-btn" data-tab="settings">⚙️ Settings</button>
+    </div>
+
+    <!-- Translation Tab -->
+    <div id="translate-tab" class="tab-content active">
+        <div id="translationContainer" style="display:none;">
+            <div style="font-size:12px; color:#6b7280; margin-bottom:6px;">Translation:</div>
+            <div id="quickTranslation" class="translation-area"></div>
+
+            <div
+                style="margin-top: 10px; padding: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" id="gemini-back-translation-checkbox"
+                    style="cursor: pointer; width: 14px; height: 14px;">
+                <label for="gemini-back-translation-checkbox"
+                    style="font-size: 11px; color: #475569; font-weight: 500; cursor: pointer;">
+                    Correction & Back-translation (Proofread)
+                </label>
+            </div>
+
+            <div id="gemini-proofread-results"
+                style="display: none; margin-top: 10px; border-top: 1px dashed #e2e8f0; padding-top: 10px;">
+                <div style="font-size: 11px; font-weight: 700; color: #1e40af; margin-bottom: 8px;">
+                    <span style="background: #dbeafe; padding: 1px 5px; border-radius: 4px;">🛡️ Language Coach</span>
+                </div>
+
+                <div id="gemini-correction-section" style="display: none;">
+                    <div style="font-size: 11px; font-weight: 600; color: #2563eb; margin-bottom: 4px;">✨ Corrected
+                        Original:</div>
+                    <div id="gemini-correction-output"
+                        style="padding: 8px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; font-size: 11px; color: #92400e; margin-bottom: 8px; line-height: 1.4;">
+                    </div>
+                </div>
+
+                <div id="gemini-explanation-section" style="display: none;">
+                    <div style="font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px;">💡 Explanation:
+                    </div>
+                    <div id="gemini-explanation-output"
+                        style="padding: 8px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 11px; color: #334155; line-height: 1.4;">
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+                <button id="copyTranslationBtn" class="btn btn-secondary" style="flex: 1;">📋 Copy</button>
+                <button id="clearTranslationBtn" class="btn btn-secondary" style="flex: 1; color: #dc2626;">🧹
+                    Clear</button>
+            </div>
+        </div>
+        <div id="noSelectionMsg" class="status-msg">
+            Select text on the page and click the extension icon to translate
+        </div>
+        <div id="translatorSpinner" style="display:none; text-align:center; padding:12px; color:#374151;">
+            <div style="display:inline-flex; align-items:center; gap:8px;">
+                <svg width="18" height="18" viewBox="0 0 50 50" style="animation:spin 1s linear infinite;">
+                    <circle cx="25" cy="25" r="20" stroke="#2563eb" stroke-width="4" fill="none" stroke-linecap="round"
+                        stroke-dasharray="31.4 31.4"></circle>
+                </svg>
+                <div>Translating…</div>
+            </div>
+        </div>
+        <style>
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+    </div>
+
+    <!-- Summary Tab -->
+    <div id="summary-tab" class="tab-content">
+        <div class="toggle-container" style="background:#fef2f2; border-color:#fecaca; margin:0 0 16px 0;">
+            <div style="font-size:12px; color:#991b1b; font-weight:600;">✨ AI Content Analysis</div>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-bottom:16px;">
+            <button id="summarizeSelectionBtn" class="btn"
+                style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px;">
+                <span>📝 Selection</span>
+            </button>
+            <button id="summarizePageBtn" class="btn btn-secondary"
+                style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px;">
+                <span>📄 Full Page</span>
+            </button>
+        </div>
+
+        <div id="summaryResultContainer" style="display:none;">
+            <div style="font-size:12px; color:#6b7280; margin-bottom:6px;">Analysis Result:</div>
+            <div id="summaryOutput" class="translation-area"
+                style="background:#fff7ed; border-color:#ffedd5; min-height:150px;"></div>
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+                <button id="copySummaryBtn" class="btn btn-secondary" style="flex: 1;">📋 Copy</button>
+                <button id="clearSummaryBtn" class="btn btn-secondary" style="flex: 1; color: #dc2626;">🧹
+                    Clear</button>
+            </div>
+        </div>
+
+        <div id="summaryStatusMsg" class="status-msg">
+            Choose an analysis option above
+        </div>
+
+        <div id="summarySpinner" style="display:none; text-align:center; padding:12px; color:#374151;">
+            <div style="display:inline-flex; align-items:center; gap:8px;">
+                <svg width="18" height="18" viewBox="0 0 50 50" style="animation:spin 1s linear infinite;">
+                    <circle cx="25" cy="25" r="20" stroke="#f97316" stroke-width="4" fill="none" stroke-linecap="round"
+                        stroke-dasharray="31.4 31.4"></circle>
+                </svg>
+                <div>Analyzing content…</div>
+            </div>
+        </div>
+    </div>
+    <!-- Settings Tab -->
+    <div id="settings-tab" class="tab-content">
+        <div class="api-keys-container"
+            style="border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px;">
+            <label class="api-keys-label">🌍 Preferred Target Language</label>
+            <select id="userLanguageSelect"
+                style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #d1d5db; font-size: 13px; background: white; cursor: pointer;">
+                <option value="en">English (US)</option>
+                <option value="el">Greek (EL)</option>
+            </select>
+        </div>
+
+        <div class="api-keys-container">
+            <label class="api-keys-label">🤖 AI Intelligence Model</label>
+            <select id="modelSelect"
+                style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #d1d5db; margin-bottom: 4px; font-size: 13px; background: white; cursor: pointer;">
+                <!-- Options will be populated by popup.js -->
+            </select>
+            <div id="modelStatus" class="status-text"></div>
+        </div>
+
+        <div id="tokenUsageDisplay" class="token-usage" style="margin: 16px 0; display:none;">
+            <div style="margin-bottom: 6px; font-weight: 600; color: #b45309;">📊 Your Daily Token Usage</div>
+            <div class="token-usage-bar">
+                <div id="tokenUsageFill" class="token-usage-fill"></div>
+            </div>
+            <div class="token-usage-stats">
+                <span id="tokenUsageText">0 / 1,000,000</span>
+                <span id="tokenUsagePercent">0%</span>
+            </div>
+            <div style="margin-top: 4px; font-size: 10px; color: #b45309;">
+                <div id="tokenUsageRemaining">Session usage tracking</div>
+            </div>
+        </div>
+
+        <div class="api-keys-container" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb;">
+            <label class="api-keys-label">🔑 Your AI Provider API Key</label>
+            <div id="providersList" class="providers-list-container"></div>
+            <div id="apiKeyStatus" class="status-text"></div>
+        </div>
+
+        <div
+            style="margin-top: 20px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <button id="togglePrivacyBtn"
+                style="width: 100%; background: none; border: none; color: #475569; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 0;">
+                <span>🔒 Privacy & Data Safety</span>
+                <span id="privacyArrow">▼</span>
+            </button>
+            <div id="privacyContent"
+                style="display: none; margin-top: 10px; font-size: 10.5px; color: #64748b; line-height: 1.5; border-top: 1px dashed #cbd5e1; padding-top: 8px;">
+                SmartTranslate processes text selection only when you request a translation or summary.
+                Data is sent securely via HTTPS to Google's Gemini API.
+                <br><br>
+                <strong>What we store:</strong>
+                Your API key and preferred language are stored locally in your browser. No personal data is ever
+                collected or stored on external servers.
+            </div>
+        </div>
+
+        <div
+            style="margin-top: 32px; text-align: center; border-top: 1px solid #f1f5f9; padding-top: 16px; padding-bottom: 8px;">
+            <div
+                style="font-size: 11px; color: #94a3b8; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                <span>Created with</span>
+                <span style="color: #ef4444; font-size: 12px;">❤️</span>
+                <span>by</span>
+                <span style="color: #6366f1; font-weight: 700; letter-spacing: 0.3px;">Tsoukas Aggelos</span>
+            </div>
+            <div style="font-size: 9px; color: #cbd5e1; margin-top: 4px;">SmartTranslate v1.0 • Final Release</div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="utils/logger.js"></script>
+    <script src="utils/security.js"></script>
+    <script src="libs/marked.min.js"></script>
+    <script src="popup.js"></script>
+</body>
+
+</html>
