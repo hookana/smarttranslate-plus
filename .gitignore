@@ -1,0 +1,15 @@
+# SmartTranslate Git Ignore
+
+# Extension Builds
+*.zip
+
+# Backups and temporary files
+backups/
+backup_stable_latest/
+dist_temp/
+tmp/
+.gemini/
+
+# OS files
+.DS_Store
+Thumbs.db

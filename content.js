@@ -40,6 +40,15 @@ async function setup() {
         // Initialize API with stored key
         await Api.init();
 
+        // 🚨 CRITICAL: If this is a PDF page, nuke any existing UI immediately
+        if (typeof UI !== 'undefined' && UI.isPdfPage && UI.isPdfPage()) {
+            UI.purgeFloatingUI();
+            Logger.info('PDF detected during setup - UI purged and blocked');
+            // We continue setup to keep message listener alive, but ensureFloatingButton will block creation later
+        }
+
+        try { Analytics.fireEvent('session_started', { domain: window.location.hostname }); } catch (e) { }
+
         // Initialize enabled state from storage
         try {
             const url = new URL(window.location.href);
@@ -84,6 +93,7 @@ async function setup() {
                 return false;
             }
             if (type === 'smarttranslate:state-change') {
+                if (message.domain && message.domain !== window.location.hostname) return false;
                 if (typeof UI !== 'undefined' && UI.setEnabled) UI.setEnabled(message.enabled);
                 if (message.enabled) {
                     if (typeof UI !== 'undefined' && UI.ensureFloatingButton) {
@@ -105,12 +115,21 @@ async function setup() {
                 return false;
             }
             if (type === 'smarttranslate:floating-button-visibility') {
+                // If a domain is specified, ignore if it doesn't match ours
+                if (message.domain && message.domain !== window.location.hostname) {
+                    return false;
+                }
+
                 if (typeof UI !== 'undefined') {
                     if (message.show) {
-                        UI.ensureFloatingButton(true).catch(() => { });
-                    } else if (UI.floatingButtonInstance) {
-                        UI.floatingButtonInstance.unmount();
-                        UI.floatingButtonInstance = null;
+                        // Only show if the extension itself is enabled for this site
+                        if (UI.isEnabled !== false) {
+                            UI.ensureFloatingButton(true).catch(() => { });
+                        }
+                    } else {
+                        if (typeof UI !== 'undefined' && UI.purgeFloatingUI) {
+                            UI.purgeFloatingUI();
+                        }
                     }
                 }
                 sendResponse({ success: true });

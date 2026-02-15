@@ -1,14 +1,13 @@
 {
   "manifest_version": 3,
   "name": "SmartTranslate: AI Assistant Translate+",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Smart AI-powered translator and assistant for instant translations and summaries using Gemini API.",
   "permissions": [
     "activeTab",
     "scripting",
     "contextMenus",
-    "storage",
-    "webNavigation"
+    "storage"
   ],
   "action": {
     "default_popup": "popup.html",
@@ -40,6 +39,7 @@
         "config.js",
         "utils/logger.js",
         "utils/security.js",
+        "utils/analytics.js",
         "servicenow-helper.js",
         "tinymce-helper.js",
         "modules/storage.js",

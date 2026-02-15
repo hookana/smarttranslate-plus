@@ -67,34 +67,41 @@ async function initializePopup() {
             // Update UI
             updateUI(newState, domain);
 
-            // Notify content script of state change
+            // Notify all tabs (they will check if the domain applies)
             try {
-                await chrome.tabs.sendMessage(tab.id, {
-                    type: 'smarttranslate:state-change',
-                    enabled: newState
+                const allTabs = await chrome.tabs.query({});
+                allTabs.forEach(t => {
+                    chrome.tabs.sendMessage(t.id, {
+                        type: 'smarttranslate:state-change',
+                        enabled: newState,
+                        domain: domain
+                    }).catch(() => { });
                 });
-            } catch (err) {
-                // Could not notify content script
-            }
+            } catch (err) { }
         });
 
         // Floating Button Toggle Logic
+        // Floating Button Toggle Logic (Per-Site)
         const floatToggle = document.getElementById('floatingButtonToggle');
         if (floatToggle) {
-            const floatHiddenRes = await chrome.storage.local.get(['smarttranslate_hide_floating_button']);
-            const isHidden = !!floatHiddenRes.smarttranslate_hide_floating_button;
-            floatToggle.checked = !isHidden; // UI is "Show Floating Button"
+            // New logic: default is OFF. We check for 'smarttranslate_show_floating_button_{domain}'.
+            const floatKey = `smarttranslate_show_floating_button_${domain}`;
+            const floatShowRes = await chrome.storage.local.get([floatKey]);
+            const isShown = !!floatShowRes[floatKey];
+
+            floatToggle.checked = isShown; // UI reflects "Show" state directly
 
             floatToggle.addEventListener('change', async (e) => {
                 const show = e.target.checked;
-                await chrome.storage.local.set({ 'smarttranslate_hide_floating_button': !show });
+                await chrome.storage.local.set({ [floatKey]: show });
 
-                // Notify all tabs to show/hide their floating button
+                // Notify tabs. We send domain so content scripts can check if it applies to them.
                 const tabs = await chrome.tabs.query({});
                 tabs.forEach(t => {
                     chrome.tabs.sendMessage(t.id, {
                         type: 'smarttranslate:floating-button-visibility',
-                        show: show
+                        show: show,
+                        domain: domain
                     }).catch(() => { });
                 });
             });

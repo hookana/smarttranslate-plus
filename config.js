@@ -3,7 +3,7 @@
 const CONFIG = {
     // API Configuration
     API_URL: "https://generativelanguage.googleapis.com/v1beta/models/",
-    MODEL: "gemini-1.5-flash",
+    MODEL: "google-fast-free",
     AVAILABLE_MODELS: [
         { id: 'gemini-3-flash-preview', name: 'Gemini 3 Flash (17K RPM / 250K RPD)' },
         { id: 'gemini-3-pro-preview', name: 'Gemini 3 Pro (High Quality)' },

@@ -1,11 +1,9 @@
-// background script started
-
-// background.js
-// Creates a context menu item for text selections and sends a message to the content script
+importScripts('./utils/analytics.js');
 
 chrome.runtime.onInstalled.addListener(() => {
   // onInstalled event fired
   try {
+    Analytics.fireEvent('extension_installed');
     // Remove existing menu item if it exists to avoid duplicates
     chrome.contextMenus.remove('smarttranslate_selection', () => {
       // Ignore errors if it doesn't exist
@@ -57,6 +55,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
           return;
         }
         // message sent successfully
+        try { Analytics.fireEvent('context_menu_used'); } catch (e) { }
       }
     );
   } catch (error) {
@@ -66,6 +65,11 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
 // Relay messages from content scripts (e.g. iframes) to the top frame
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'ANALYTICS_EVENT') {
+    Analytics.fireEvent(message.name, message.params);
+    return false; // No response needed
+  }
+
   if (message.type === 'smarttranslate:show-popup') {
     if (sender.tab && sender.tab.id) {
       chrome.tabs.sendMessage(sender.tab.id, message, (response) => {

@@ -519,7 +519,8 @@
 
     <div class="tabs">
         <button class="tab-btn active" data-tab="translate">📝 Translate</button>
-        <button class="tab-btn" data-tab="summary">📋 Summary</button>
+        <button class="tab-btn" data-tab="summary">📋 Summary <span
+                style="font-size: 9px; vertical-align: super; color: #f59e0b; font-weight: 800;">BETA</span></button>
         <button class="tab-btn" data-tab="settings">⚙️ Settings</button>
     </div>
 
@@ -529,7 +530,7 @@
             <div style="font-size:12px; color:#6b7280; margin-bottom:6px;">Translation:</div>
             <div id="quickTranslation" class="translation-area"></div>
 
-            <div
+            <!-- <div
                 style="margin-top: 10px; padding: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: flex; align-items: center; gap: 8px;">
                 <input type="checkbox" id="gemini-back-translation-checkbox"
                     style="cursor: pointer; width: 14px; height: 14px;">
@@ -537,9 +538,9 @@
                     style="font-size: 11px; color: #475569; font-weight: 500; cursor: pointer;">
                     Correction & Back-translation (Proofread)
                 </label>
-            </div>
+            </div> -->
 
-            <div id="gemini-proofread-results"
+            <!-- <div id="gemini-proofread-results"
                 style="display: none; margin-top: 10px; border-top: 1px dashed #e2e8f0; padding-top: 10px;">
                 <div style="font-size: 11px; font-weight: 700; color: #1e40af; margin-bottom: 8px;">
                     <span style="background: #dbeafe; padding: 1px 5px; border-radius: 4px;">🛡️ Language Coach</span>
@@ -560,7 +561,7 @@
                         style="padding: 8px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 11px; color: #334155; line-height: 1.4;">
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div style="display: flex; gap: 8px; margin-top: 8px;">
                 <button id="copyTranslationBtn" class="btn btn-secondary" style="flex: 1;">📋 Copy</button>
@@ -618,6 +619,9 @@
                 <button id="copySummaryBtn" class="btn btn-secondary" style="flex: 1;">📋 Copy</button>
                 <button id="clearSummaryBtn" class="btn btn-secondary" style="flex: 1; color: #dc2626;">🧹
                     Clear</button>
+            </div>
+            <div style="text-align: center; font-size: 10px; color: #9ca3af; font-style: italic; margin-top: 8px;">
+                AI can make mistakes. Please verify important information.
             </div>
         </div>
 
@@ -703,7 +707,7 @@
                 <span>by</span>
                 <span style="color: #6366f1; font-weight: 700; letter-spacing: 0.3px;">Tsoukas Aggelos</span>
             </div>
-            <div style="font-size: 9px; color: #cbd5e1; margin-top: 4px;">SmartTranslate v1.0 • Final Release</div>
+            <div style="font-size: 9px; color: #cbd5e1; margin-top: 4px;">SmartTranslate v1.0.4</div>
         </div>
     </div>
 

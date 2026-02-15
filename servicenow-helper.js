@@ -127,6 +127,68 @@ const ServiceNowHelper = {
         }
     },
 
+    getPageText: () => {
+        let fullText = '';
+        // WeakSet to detect cycles or already visited nodes (though DOM tree is acyclic, safety first)
+        const visited = new WeakSet();
+
+        const crawl = (node) => {
+            if (!node) return;
+            // Skip non-interesting node types
+            if (node.nodeType !== Node.ELEMENT_NODE && node.nodeType !== Node.TEXT_NODE && node.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) return;
+
+            if (visited.has(node)) return;
+            visited.add(node);
+
+            // 1. Text Content
+            if (node.nodeType === Node.TEXT_NODE) {
+                const val = node.nodeValue.trim();
+                if (val.length > 0) fullText += val + ' ';
+                return;
+            }
+
+            // 2. Element Handling
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                // Skip hidden elements to reduce noise
+                // Note: getComputedStyle is expensive, so we only check if strictly necessary or use simple checks
+                // For performance, we skip the style check for every node and just ignore obvious hidden ones
+                if (node.tagName === 'SCRIPT' || node.tagName === 'STYLE' || node.tagName === 'NOSCRIPT') return;
+
+                // Form values
+                if (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA') {
+                    if (node.type !== 'hidden' && node.type !== 'password' && node.value) {
+                        const v = node.value.trim();
+                        if (v) fullText += v + ' ';
+                    }
+                }
+            }
+
+            // 3. Shadow DOM
+            if (node.shadowRoot) {
+                crawl(node.shadowRoot);
+            }
+
+            // 4. Iframes
+            if (node.tagName === 'IFRAME') {
+                try {
+                    const doc = node.contentDocument || (node.contentWindow && node.contentWindow.document);
+                    if (doc) {
+                        crawl(doc.body);
+                    }
+                } catch (e) { }
+            }
+
+            // 5. Children (Light DOM or Shadow Content)
+            if (node.childNodes && node.childNodes.length > 0) {
+                Array.from(node.childNodes).forEach(crawl);
+            }
+        };
+
+        if (document.body) crawl(document.body);
+
+        return fullText.replace(/\s+/g, ' ').trim().substring(0, 50000); // Sanity limit
+    },
+
     setupFrameHandlers: (handler) => {
         // Handle existing frames
         document.querySelectorAll('iframe').forEach(frame => {
