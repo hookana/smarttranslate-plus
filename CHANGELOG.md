@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.7] - 2026-03-16
+### Fixed
+- **ServiceNow Freeze / UI Lockup**: Removed an aggressive `MutationObserver` inside `servicenow-helper.js` that was attached to each iframe's content and re-triggered `Selection.handleSelection` on every DOM change (e.g. AJAX updates). This caused an infinite processing loop on ServiceNow pages, making all popup buttons unresponsive until the extension was disabled and the page refreshed.
+- **Scrollbar Style Bleed**: Added `!important` to all `.gemini-scrollbar` CSS rules so that host-site styles (e.g. Microsoft Learn's dark scrollbar) can no longer override the extension's scrollbar appearance.
+
+### Added
+- **CSS Isolation Reset**: Added a comprehensive CSS reset block scoped to `#${ids.POPUP}` with `!important` overrides for `font-family`, `letter-spacing`, `text-transform`, `line-height`, and `box-shadow`, preventing any host-site stylesheet from altering the popup's appearance.
+- **Resizable Popup**: The popup now supports `resize: both`, allowing users to drag the bottom-right corner to make it larger or smaller. Minimum dimensions are `300×400px`.
+
+## [1.0.6] - 2026-02-16
+### Fixed
+- **Google Fast Free Fix**: Resolved an issue where "Google Fast" mode would fail with a Gemini API error when the source language was manually selected. Now correctly bypasses Gemini API and uses the free Google Translate engine in all "Fast" scenarios.
+### Changed
+- **Versioning**: Synchronized version number (1.0.6) across all descriptors, UI footers, and build automation scripts.
+
 ## [1.0.5] - 2026-02-15
 ### Added
 - **Bulletproof PDF Protection**: Implemented aggressive blocking and purging of UI elements on PDF pages to prevent "ghost" icons and interference with the browser's PDF viewer.

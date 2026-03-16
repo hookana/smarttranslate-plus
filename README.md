@@ -41,6 +41,15 @@ SmartTranslate is a powerful Chrome extension that enables instant text translat
 <details>
 <summary><b>Click to expand Version History</b></summary>
 
+### [1.0.7] - 2026-03-16
+- **ServiceNow Freeze Fix**: Removed an aggressive MutationObserver from iframes that caused an infinite processing loop on every AJAX update — buttons are now always responsive.
+- **Scrollbar CSS Fix**: Popup scrollbar is no longer overridden by the host website's styles (e.g. Microsoft Learn dark theme).
+- **CSS Isolation**: Added a comprehensive CSS reset to prevent any website stylesheet from altering the popup's appearance.
+- **Resizable Popup**: Users can now drag the bottom-right corner of the popup to resize it freely.
+
+### [1.0.6] - 2026-02-16
+- **Google Fast Stability**: Fixed manual language selection errors when using the API-key-free mode.
+
 ### [1.0.5] - 2026-02-15
 - **Bulletproof PDF Protection**: Aggressive blocking and purging of UI elements on PDF pages to prevent interference.
 - **Instant Per-Site Sync**: Toggling the extension state now notifies all open tabs of the same domain immediately.

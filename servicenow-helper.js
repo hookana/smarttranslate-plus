@@ -111,16 +111,6 @@ const ServiceNowHelper = {
                 frame.contentDocument.addEventListener('mouseup', handler, { capture: true });
                 frame.contentDocument.addEventListener('keyup', handler, { capture: true });
                 frame.contentDocument.addEventListener('selectionchange', handler, { capture: true });
-
-                // Watch for dynamic content changes in the frame
-                const frameObserver = new MutationObserver(() => {
-                    handler({ target: frame.contentDocument });
-                });
-
-                frameObserver.observe(frame.contentDocument.body || frame.contentDocument.documentElement, {
-                    childList: true,
-                    subtree: true
-                });
             }
         } catch (e) {
             // Ignore cross-origin frame errors
